@@ -15,11 +15,17 @@ public class CarController {
     }
 
     @GetMapping(value = "/cars")
+    public String cars(ModelMap model) {
+        model.addAttribute("cars", carService.getCars());
+        return "cars";
+    }
+
+    @GetMapping(value = "/cars", params = "count")
     public String cars(
             ModelMap model,
-            @RequestParam(required = false) Integer count
+            @RequestParam Integer count
     ) {
-        count = count == null || count >= 5 ? Integer.MAX_VALUE : count;
+        count = count >= 5 ? Integer.MAX_VALUE : count;
         model.addAttribute("cars", carService.getCars(count));
         return "cars";
     }
